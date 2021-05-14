@@ -1,0 +1,7 @@
+<RCC>
+  <qresource prefix="Main">
+    <file>img/Title.png</file>
+    <file>img/PumpkinNew-1.png</file>
+    <file>img/PumpkinNew-2.png</file>
+  </qresource>
+</RCC>
