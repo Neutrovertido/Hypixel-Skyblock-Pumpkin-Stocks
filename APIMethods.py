@@ -33,6 +33,7 @@ async def getAuctionData():
                     i-=1
     print(f"Cheapest Farmer Boots found in BIN: {fb}")
     print(f"Cheapest Rancher Boots found in BIN: {rb}")
+    return [fb, rb]
 
 def getBazaarData():
     url = f"https://api.hypixel.net/skyblock/bazaar?key={API_Key}"
@@ -41,7 +42,8 @@ def getBazaarData():
     pp = store['products']['POLISHED_PUMPKIN']['buy_summary'][0]['pricePerUnit']
     print(f"Enchanted Pumpkin sold at bazaar: {ep}")
     print(f"Polished Pumpkin sold at bazaar: {pp}")
+    return [ep, pp]
 
-store = asyncio.run(getAuctionData())
-getBazaarData()
+# store = asyncio.run(getAuctionData())
+# getBazaarData()
 

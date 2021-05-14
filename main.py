@@ -9,6 +9,7 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
+import asyncio
 
 
 class Ui_MainWindow(object):
@@ -16,6 +17,13 @@ class Ui_MainWindow(object):
         MainWindow.setObjectName("MainWindow")
         MainWindow.setWindowModality(QtCore.Qt.NonModal)
         MainWindow.resize(700, 500)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(MainWindow.sizePolicy().hasHeightForWidth())
+        MainWindow.setSizePolicy(sizePolicy)
+        MainWindow.setMinimumSize(QtCore.QSize(700, 500))
+        MainWindow.setMaximumSize(QtCore.QSize(700, 500))
         font = QtGui.QFont()
         font.setFamily("Roboto")
         MainWindow.setFont(font)
@@ -39,6 +47,8 @@ class Ui_MainWindow(object):
         item = QtWidgets.QTableWidgetItem()
         self.dataTable.setHorizontalHeaderItem(2, item)
         self.dataTable.horizontalHeader().setCascadingSectionResizes(True)
+        self.dataTable.horizontalHeader().setStretchLastSection(False)
+        self.dataTable.verticalHeader().setStretchLastSection(False)
         self.updateB = QtWidgets.QPushButton(self.centralwidget)
         self.updateB.setGeometry(QtCore.QRect(10, 380, 681, 61))
         font = QtGui.QFont()
@@ -88,6 +98,8 @@ class Ui_MainWindow(object):
         self.header.setSectionResizeMode(1, QtWidgets.QHeaderView.Stretch)
         self.header.setSectionResizeMode(2, QtWidgets.QHeaderView.Stretch)
 
+        self.updateB.clicked.connect(self.update)
+
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "Pumpkin Tracker"))
@@ -104,8 +116,43 @@ class Ui_MainWindow(object):
         self.actionExit.setText(_translate("MainWindow", "Exit"))
         self.actionAbout.setText(_translate("MainWindow", "About"))
 
+    def update(self):
+        self.updateB.setText("Loading...")
+        self.updateB.setEnabled(False)
+
+        try:
+            Auction = asyncio.run(APIMethods.getAuctionData())
+            Bazaar = APIMethods.getBazaarData()
+
+            values = [Bazaar[0], Bazaar[1], Auction[0], Auction[1]]
+            ratios = [values[0], values[1]/160, values[2]/256, values[3]/2816]
+
+            self.dataTable.setRowCount(0)
+
+            self.dataTable.insertRow(0)
+            self.dataTable.insertRow(1)
+            self.dataTable.insertRow(2)
+            self.dataTable.insertRow(3)
+
+            self.dataTable.setItem(0, 0, QtWidgets.QTableWidgetItem("Enchanted Pumpkin"))
+            self.dataTable.setItem(1, 0, QtWidgets.QTableWidgetItem("Polished Pumpkin"))
+            self.dataTable.setItem(2, 0, QtWidgets.QTableWidgetItem("Farmer Boots"))
+            self.dataTable.setItem(3, 0, QtWidgets.QTableWidgetItem("Rancher Boots"))
+
+            for i in range(0, 4):
+                self.dataTable.setItem(i, 1, QtWidgets.QTableWidgetItem(str(values[i])))
+                self.dataTable.setItem(i, 2, QtWidgets.QTableWidgetItem(str(ratios[i])))
+
+            self.updateB.setText("Update")
+        except:
+            self.updateB.setText("Error")
+        finally:
+            self.updateB.setEnabled(True)
+
+
 
 import Resources_rc
+import APIMethods
 
 
 if __name__ == "__main__":
@@ -116,4 +163,3 @@ if __name__ == "__main__":
     ui.setupUi(MainWindow)
     MainWindow.show()
     sys.exit(app.exec_())
-
