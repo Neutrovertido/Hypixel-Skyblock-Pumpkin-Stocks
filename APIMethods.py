@@ -3,10 +3,7 @@ import asyncio
 import requests
 import json
 
-API_Key = ""
-
-
-async def getAuctionData():
+async def getAuctionData(API_Key):
     url = f"https://api.hypixel.net/skyblock/auctions?key={API_Key}"
     iterations = requests.get(url).json()['totalPages']
     iterations -= 1
@@ -35,7 +32,7 @@ async def getAuctionData():
     print(f"Cheapest Rancher Boots found in BIN: {rb}")
     return [fb, rb]
 
-def getBazaarData():
+def getBazaarData(API_Key):
     url = f"https://api.hypixel.net/skyblock/bazaar?key={API_Key}"
     store = requests.get(url).json()
     ep = store['products']['ENCHANTED_PUMPKIN']['buy_summary'][0]['pricePerUnit']
