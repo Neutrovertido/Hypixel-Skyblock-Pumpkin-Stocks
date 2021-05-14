@@ -1,2 +1,5 @@
 # Project exclude paths
 /venv/
+
+# PyCharm exclude files/folders
+.idea/
