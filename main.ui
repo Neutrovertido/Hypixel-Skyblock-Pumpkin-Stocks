@@ -47,6 +47,12 @@
     <attribute name="horizontalHeaderCascadingSectionResizes">
      <bool>true</bool>
     </attribute>
+    <attribute name="horizontalHeaderStretchLastSection">
+     <bool>false</bool>
+    </attribute>
+    <attribute name="verticalHeaderStretchLastSection">
+     <bool>false</bool>
+    </attribute>
     <column>
      <property name="text">
       <string>Item</string>
