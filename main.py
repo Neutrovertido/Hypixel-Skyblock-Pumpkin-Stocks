@@ -106,6 +106,7 @@ class Ui_MainWindow(object):
 
         self.actionAbout.triggered.connect(self.about)
         self.actionAPI_Key.triggered.connect(self.enterKey)
+        self.actionExit.triggered.connect(self.exit)
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
@@ -184,6 +185,9 @@ class Ui_MainWindow(object):
         key, ok = QtWidgets.QInputDialog.getText(MainWindow, 'API Key', 'Enter your API Key (/api):')
         if ok:
             API_Key = key
+
+    def exit(self):
+        sys.exit()
 
 
 import Resources_rc
