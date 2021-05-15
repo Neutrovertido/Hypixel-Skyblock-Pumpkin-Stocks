@@ -11,4 +11,10 @@ Made with: Python, QT and the Hypixel Public API.
 * Implements Hypixel's Public API
 * Multi platform
 
+### Dependencies:
+* Python
+* PyQt5
+* Requests
+* aiohttp
+
 ![imagen](https://user-images.githubusercontent.com/61665012/118343786-26205e80-b4e8-11eb-8cc6-2ab7c4e52b05.png)
